@@ -4,7 +4,8 @@
 
 ### Docker_Build
 
-- docker build --build-arg JAR_FILE=build/libs/GopangPayment-0.0.1-SNAPSHOT.jar -t gopangpayment:0.0.1 .
+- docker build --build-arg JAR_FILE=build/libs/GopangPayment-0.0.1-SNAPSHOT.jar -t khyun28/paymentservice:0.0.1 .
+
 
 ---
 ### docker-compose 실행

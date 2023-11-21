@@ -58,7 +58,7 @@ services:
       retries: 3
 
   gopangpayment:
-    image: gopangpayment:0.0.1
+    image: khyun28/paymentservice:0.0.1
     container_name: gopangpayment
     environment:
       PROFILE: "dev"
@@ -67,7 +67,7 @@ services:
       database:
         condition: service_healthy
     ports:
-      - "8082:8082"
+      - "8083:8083"
     networks:
       - backend
 
