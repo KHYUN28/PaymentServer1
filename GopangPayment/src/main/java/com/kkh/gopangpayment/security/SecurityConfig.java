@@ -3,7 +3,6 @@ package com.kkh.gopangpayment.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,9 +26,35 @@ public class SecurityConfig {
             // CORS(Cross-Origin Resource Sharing) 설정을 기본값으로 설정
             .cors(Customizer.withDefaults())
             // CSRF(Cross-Site Request Forgery) 보호 기능 비활성화
-            .csrf(csrf -> csrf.disable());
-            // 요청에 대한 인증 및 권한 설정)
+            .csrf(csrf -> csrf.disable())
+            // 요청에 대한 인증 및 권한 설정
+            .authorizeRequests(
+                    request ->
+                    {
+                      // OPTIONS 메서드에 대한 요청은 모두 허용
+                      request
+                              // "/api/payment/pay/**" 패턴에 대한 요청은 모두 허용
+                              .requestMatchers("/api/payment/pay/**").permitAll()
+                              // "/api/payment/**" 패턴에 대한 요청은 모두 허용
+                              .requestMatchers("/api/payment/**").permitAll();
+                    });
     // 보안 필터 체인 설정 완료 후 반환
     return httpSecurity.build();
+  }
+
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    // 허용된 HTTP 메서드 설정 (GET, POST, PUT, DELETE 허용)
+    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+    // 모든 헤더(Header) 허용
+    configuration.setAllowedHeaders(Arrays.asList("*"));
+    // 노출할 헤더(Exposed Headers) 설정 (여기서는 모든 헤더 노출)
+    configuration.setExposedHeaders(Arrays.asList("*"));
+    // CORS 구성을 URL 기반으로 설정
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    // CORS 구성 반환
+    return source;
   }
 }
