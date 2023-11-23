@@ -19,8 +19,5 @@
 - 카프카로 받고 보내는 형식은 모두 JSON <br><br>
 
   - Payment_start  : payment
-  - Payment_Detail : payment_detail
   - Payment_Cancel : payment_cancel
   
----
----# PaymentServer1
